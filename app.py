@@ -17,7 +17,12 @@ range_ = ['red', 'green']
 chart = alt.Chart(req_df).mark_point().encode(
     x=alt.X('name:N', sort='-y'),
     y=alt.Y('visits'),
-    color=alt.Color('status:N', scale=alt.Scale(domain=domain, range=range_)),
+
+
+
+    color=alt.Color('status:N', scale=alt.Scale(
+        domain=domain, range=range_), legend=None),
+    shape=alt.Shape('status', legend=None),
     tooltip=['name', 'visits']
 )
 
