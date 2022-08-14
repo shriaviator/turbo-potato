@@ -1,4 +1,5 @@
 import streamlit as st
+import altair as alt
 
 
 def mask_list(df, maskname):
@@ -55,3 +56,36 @@ def check_password():
     else:
         # Password correct.
         return True
+
+
+def generate_chart(req_df, chart_param):
+    yaxis_title = {
+        "visits": "No of Days Visited",
+        "topics_viewed": "No of Topics Viewed",
+        "posts_read": "No of Posts Read",
+        "posts_created": "No of Posts Created",
+        "topics_created": "No of Topics Created",
+        "likes_given": "No of Likes Given",
+        "likes_received": "No of Likes received",
+
+
+
+
+    }
+    domain = [True, False]
+    range_ = ['red', 'green']
+    scatter_chart = alt.Chart(req_df).mark_point().encode(
+        x=alt.X('name:N', sort='-y', axis=alt.Axis(title='Name of Instructor')),
+        y=alt.Y(chart_param, axis=alt.Axis(title=yaxis_title[chart_param])),
+
+
+
+        color=alt.Color('status:N', scale=alt.Scale(
+            domain=domain, range=range_), legend=None),
+        shape=alt.Shape('status', legend=None),
+        tooltip=['name', chart_param]
+    ).interactive()
+    return scatter_chart
+
+
+# visits	topics_viewed	posts_read	posts_created	topics_created	topics_with_replies	likes_given	likes_received
